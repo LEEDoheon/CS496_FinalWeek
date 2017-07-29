@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         int curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
         new PlayerTask().execute(stream);
+        //
 
         b_play.setOnClickListener(new View.OnClickListener(){
             @Override

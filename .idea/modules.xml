@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CS496_FinalWeek.iml" filepath="$PROJECT_DIR$/CS496_FinalWeek.iml" />
       <module fileurl="file://$PROJECT_DIR$/VOKRadio.iml" filepath="$PROJECT_DIR$/VOKRadio.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
