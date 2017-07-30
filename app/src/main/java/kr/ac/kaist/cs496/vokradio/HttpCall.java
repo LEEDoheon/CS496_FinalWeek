@@ -38,6 +38,7 @@ public class HttpCall extends Activity {
     private static ArrayList<String> anouncer = new ArrayList<>();
     private static ArrayList<String> songs = new ArrayList<>();
     private static String response = "";
+    private static String status = "";
 
 
     public static void setMethodtext(String s) { method = s; }
@@ -52,6 +53,7 @@ public class HttpCall extends Activity {
     public static void setCategorytext(String s) { category = s; }
     public static void setDaytext(String s) { day = s; }
     public static void setTimetext(String s) { time = s; }
+    public static void setStatustext(String s) { status = s; }
 
     public static void setProducer(ArrayList<String> a) { producer = a; }
     public static void setEngineer(ArrayList<String> a) { engineer = a; }
@@ -110,6 +112,7 @@ public class HttpCall extends Activity {
                             .addFormDataPart("thumbnail", file.getName(), RequestBody.create(MediaType.parse("image/" + ext), file))
                             .build();
                 } else {
+                    Log.d("AAAAAAAAAAAAAAAAAAAAAAA", "!!!");
                     formBody = new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("id", id)
@@ -117,9 +120,9 @@ public class HttpCall extends Activity {
                             .addFormDataPart("category", category)
                             .addFormDataPart("day", day)
                             .addFormDataPart("time", time)
-                            .addFormDataPart("producer[]", TextUtils.join(",", producer))
-                            .addFormDataPart("engineer[]", TextUtils.join(",", engineer))
-                            .addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
+                            //.addFormDataPart("producer[]", TextUtils.join(",", producer))
+                            //.addFormDataPart("engineer[]", TextUtils.join(",", engineer))
+                            //.addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
                             .build();
                 }
             }
@@ -136,7 +139,7 @@ public class HttpCall extends Activity {
 
         String put(String url, File file, String email, String name, String job, String yearnumber, String password,
                    String id, String title, String category, String day, ArrayList<String> producer,
-                   ArrayList<String> engineer, ArrayList<String> anouncer, ArrayList<String> songs) throws IOException {
+                   ArrayList<String> engineer, ArrayList<String> anouncer, ArrayList<String> songs, String status) throws IOException {
             RequestBody formBody;
             if (url.contains("admin")) {
                 formBody = new MultipartBody.Builder()
@@ -148,6 +151,11 @@ public class HttpCall extends Activity {
                 formBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("songs", TextUtils.join(",", songs))
+                        .build();
+            } else if (url.contains("onair")) {
+                formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("status", status)
                         .build();
             } else {
                 if (file != null) {
@@ -238,7 +246,7 @@ public class HttpCall extends Activity {
         public void run() {
             try {
                 response = putexample.put("http://52.78.17.108:8080" + urltext, thumbnail, email, name, job, yearnumber, password, id,
-                        title, category, day, producer, engineer, anouncer, songs);
+                        title, category, day, producer, engineer, anouncer, songs, status);
             } catch (IOException e) {
                 e.printStackTrace();
             }

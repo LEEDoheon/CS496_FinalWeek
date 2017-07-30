@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        /*
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET, Manifest.permission.MODIFY_AUDIO_SETTINGS},0);
 
         b_play = (Button) findViewById(R.id.b_play);
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 volumeText.setText(Integer.toString(volume));
             }
         });
-
+*/
     }
 
     @Override

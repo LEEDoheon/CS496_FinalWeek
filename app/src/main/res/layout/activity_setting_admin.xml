@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="20dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_setting_grey"
+            android:layout_marginRight="20dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/user_job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JOB"
+                android:layout_marginBottom="5dp"/>
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NAME"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/create_broadcast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="방송 등록"
+        android:padding="20dp"/>
+
+    <Button
+        android:id="@+id/modify_broadcast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="방송 수정"
+        android:padding="20dp"/>
+
+    <Button
+        android:id="@+id/onair_broadcast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="방송 상태 변경"
+        android:padding="20dp"/>
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:padding="20dp"/>
+
+</LinearLayout>

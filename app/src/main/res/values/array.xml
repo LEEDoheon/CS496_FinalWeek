@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="day">
+        <item>월요일</item>
+        <item>화요일</item>
+        <item>수요일</item>
+        <item>목요일</item>
+        <item>금요일</item>
+    </string-array>
+
+    <string-array name="category">
+        <item>정규 방송</item>
+        <item>음악 방송</item>
+    </string-array>
+</resources>
