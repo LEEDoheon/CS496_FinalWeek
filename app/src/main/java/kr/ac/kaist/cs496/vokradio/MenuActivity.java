@@ -21,11 +21,13 @@ public class MenuActivity extends AppCompatActivity{
         adapter = new BroadcastAdapter() ;
         mListView.setAdapter(adapter);
 
+        /*
         adapter.addItem(new BroadcastItem("스크럼직전방송", "매캠"));
         adapter.addItem(new BroadcastItem("스크럼직전방송2", "매캠2"));
         adapter.addItem(new BroadcastItem("스크럼직전방송3", "매캠3"));
         adapter.addItem(new BroadcastItem("스크럼직전방송4", "매캠4"));
         adapter.addItem(new BroadcastItem("스크럼직전방송5", "매캠5"));
+        */
 
     }
 

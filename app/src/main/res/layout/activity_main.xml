@@ -1,40 +1,153 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="kr.ac.kaist.cs496.vokradio.MainActivity">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/b_play"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:text="PLAY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
-
-    <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:max="100"
-        android:progress = "50"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="58dp" />
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/songList"
+        android:background="@drawable/landscape"
+        android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/broadcastTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="61dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="방송제목"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/broadcasterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/broadcastTitle"
+        android:layout_centerHorizontal="true"
+        android:text="만든 사람들"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/syncImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/ic_popup_sync" />
+
+    <RelativeLayout
+        android:id="@+id/songPlayerTopLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/broadcasterName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
+
+
+        <ImageView
+            android:id="@+id/circularImageView"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/landscape"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/songList"
+        android:layout_width="wrap_content"
+        android:layout_height="220dp"
+        android:background="#262626"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/songListTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="선곡표"
+            android:textColor="#EEEEEE"
+            android:textSize="18sp" />
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_below="@+id/songListTitle"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#80fafafa" />
+        <ImageView
+            android:id="@+id/soundImage"
+            android:layout_above="@id/view1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="1dp"
+            android:layout_toRightOf="@+id/songListTitle"
+            android:src="@drawable/ic_volume"/>
+
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/soundImage"
+            android:layout_above="@id/view1"
+            android:max="100"
+            android:progress = "50"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="58dp" />
+
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view1">
+
+            <TextView
+                android:id="@+id/songText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:textColor="#EEEEEE"
+                android:text="선곡내용들이 여기에 표기 됩니다."/>
+
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/songList"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="-30dp"
+        android:background="@drawable/circle">
+
+        <ImageView
+            android:id="@+id/control"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_hourglass_empty" />
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
