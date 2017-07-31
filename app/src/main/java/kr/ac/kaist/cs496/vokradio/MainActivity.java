@@ -1,21 +1,21 @@
 package kr.ac.kaist.cs496.vokradio;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.media.AudioManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -23,9 +23,11 @@ import wseemann.media.FFmpegMediaPlayer;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button b_play;
     SeekBar volumeBar;
-    TextView volumeText;
+    ImageView backgroundImage;
+    ImageView circularImage;
+    ImageView control;
+    ImageView syncImage;
 
     FFmpegMediaPlayer mediaPlayer;
     AudioManager audioManager;
@@ -41,45 +43,45 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET, Manifest.permission.MODIFY_AUDIO_SETTINGS},0);
 
-        b_play = (Button) findViewById(R.id.b_play);
-        b_play.setEnabled(false);
-        b_play.setText("LOADING");
+        //BackgroundImage Blurring
+        backgroundImage = (ImageView) findViewById(R.id.backgroundImageView);
+        BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.landscape);
+        Bitmap blurredBitmap = BlurBuilder.blur(this, drawable.getBitmap());
+        backgroundImage.setImageBitmap(blurredBitmap);
 
-        mediaPlayer = new FFmpegMediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //CircularImage Cropping
+        circularImage = (ImageView) findViewById(R.id.circularImageView);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            circularImage.setBackground(new ShapeDrawable(new OvalShape()));
+            circularImage.setClipToOutline(true);
+        }
 
+
+        // PlayButton Control
+        control = (ImageView) findViewById(R.id.control);
+        control.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!started) {
+                    mediaPlayer.start();
+                    control.setBackgroundResource(R.drawable.ic_action_pause);
+                    started = true;
+                } else {
+                    mediaPlayer.pause();
+                    control.setBackgroundResource(R.drawable.ic_action_play);
+                    started = false;
+                }
+            }
+        });
+
+        control.setEnabled(false);
+
+        //Volume Control
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-        new PlayerTask().execute(stream);
-
-        b_play.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                if(started){
-                    started = false;
-                    mediaPlayer.pause();
-                    b_play.setText("PLAY");
-                }else{
-                    started = true;
-                    mediaPlayer.start();
-                    b_play.setText("PAUSE");
-
-                }
-
-            }
-
-        });
-
-        //Volume Text (Delete Soon)
-        volumeText = (TextView) findViewById(R.id.textView);
-
-
-        //VolumeBar
         volumeBar = (SeekBar) findViewById(R.id.seekBar2);
         volumeBar.setMax(maxVolume);
         volumeBar.setProgress(curVolume);
@@ -94,16 +96,37 @@ public class MainActivity extends AppCompatActivity {
 
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
-                //드래그 하는 도중
-                //float volume = (float) (1-(Math.log(100-progress)/Math.log(100)));
-                //mediaPlayer.setVolume(volume,volume);
-                //mediaPlayer.setVolume((((float) progress)/100)*15, (((float) progress)/100)*15);
                 volume = progress;
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,progress,0);
-                volumeText.setText(Integer.toString(volume));
             }
         });
-*/
+
+        //Sync
+        syncImage = (ImageView) findViewById(R.id.syncImage);
+        syncImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                syncImage.setEnabled(false);
+                if(started){
+                    mediaPlayer.stop();
+                }
+                started = false;
+                prepared = false;
+                mediaPlayer.reset();
+                control.setBackgroundResource(R.drawable.ic_hourglass_empty);
+                control.setEnabled(false);
+                new PlayerTask().execute(stream);
+            }
+
+        });
+
+
+        //Media Loading
+        mediaPlayer = new FFmpegMediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        new PlayerTask().execute(stream);
+
+
     }
 
     @Override
@@ -144,8 +167,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute (Boolean aBoolean){
             super.onPostExecute(aBoolean);
             mediaPlayer.start();
-            b_play.setEnabled(true);
-            b_play.setText("PLAY");
+            control.setEnabled(true);
+            started = true;
+            control.setBackgroundResource(R.drawable.ic_action_pause);
+            syncImage.setEnabled(true);
         }
 
 
