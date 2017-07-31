@@ -1,13 +1,28 @@
 package kr.ac.kaist.cs496.vokradio;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +30,8 @@ import java.util.ArrayList;
  */
 
 public class CreateBdActivity extends AppCompatActivity {
+
+    final int REQ_CODE_SELECT_IMAGE = 999;
 
     EditText bdTitle;
     Spinner bdCategory;
@@ -32,6 +49,7 @@ public class CreateBdActivity extends AppCompatActivity {
 
     Button select_thumbnail;
     Button submit_creation;
+    boolean img_selected = false;
 
     File img_thumbnail;
     ArrayList<String> Producers = new ArrayList<>();
@@ -56,32 +74,89 @@ public class CreateBdActivity extends AppCompatActivity {
         bdAnouncer3 = (EditText) findViewById(R.id.create_anouncer3);
         bdAnouncer4 = (EditText) findViewById(R.id.create_anouncer4);
 
-        select_thumbnail = (Button) findViewById(R.id.submit_broadcast_create);
+        select_thumbnail = (Button) findViewById(R.id.select_thumbnail);
         select_thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HttpCall.setTitletext(bdTitle.getText().toString());
-                HttpCall.setCategorytext(bdCategory.getSelectedItem().toString());
-                HttpCall.setDaytext(bdDay.getSelectedItem().toString());
-                HttpCall.setTimetext(bdStartTime.getText().toString()+" ~ "+bdEndTime.getText().toString());
-                HttpCall.setIdtext(bdDay.getSelectedItem().toString()+bdStartTime.getText().toString()+bdEndTime.getText().toString());
-
-                if (bdProducer1.getText().toString() != null && bdProducer1.getText().toString().equals("")) Producers.add(bdProducer1.getText().toString());
-                if (bdProducer2.getText().toString() != null && bdProducer2.getText().toString().equals("")) Producers.add(bdProducer2.getText().toString());
-                if (bdEngineer1.getText().toString() != null && bdEngineer1.getText().toString().equals("")) Engineers.add(bdEngineer1.getText().toString());
-                if (bdEngineer2.getText().toString() != null && bdEngineer2.getText().toString().equals("")) Engineers.add(bdEngineer2.getText().toString());
-                if (bdAnouncer1.getText().toString() != null && bdAnouncer1.getText().toString().equals("")) Anouncers.add(bdAnouncer1.getText().toString());
-                if (bdAnouncer2.getText().toString() != null && bdAnouncer2.getText().toString().equals("")) Anouncers.add(bdAnouncer2.getText().toString());
-                if (bdAnouncer3.getText().toString() != null && bdAnouncer3.getText().toString().equals("")) Anouncers.add(bdAnouncer3.getText().toString());
-                if (bdAnouncer4.getText().toString() != null && bdAnouncer4.getText().toString().equals("")) Anouncers.add(bdAnouncer4.getText().toString());
-                HttpCall.setProducer(Producers);
-                HttpCall.setEngineer(Engineers);
-                HttpCall.setAnouncer(Anouncers);
-
-                HttpCall.setMethodtext("POST");
-                HttpCall.setUrltext("/api/addbroadcast");
-                HttpCall.getResponse();
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                //intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                //intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
             }
         });
+
+        submit_creation = (Button) findViewById(R.id.submit_broadcast_create);
+        submit_creation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HttpCall.setMethodtext("POST");
+                HttpCall.setUrltext("/api/addbroadcast");
+
+                JSONArray JSON_producer = new JSONArray();
+                if (bdProducer1.getText().toString().length() > 0) JSON_producer.put(bdProducer1.getText().toString());
+                if (bdProducer2.getText().toString().length() > 0) JSON_producer.put(bdProducer2.getText().toString());
+
+                JSONArray JSON_engineer = new JSONArray();
+                if (bdEngineer1.getText().toString().length() > 0) JSON_engineer.put(bdEngineer1.getText().toString());
+                if (bdEngineer2.getText().toString().length() > 0) JSON_engineer.put(bdEngineer2.getText().toString());
+
+                JSONArray JSON_anouncer = new JSONArray();
+                if (bdAnouncer1.getText().toString().length() > 0) JSON_anouncer.put(bdAnouncer1.getText().toString());
+                if (bdAnouncer2.getText().toString().length() > 0) JSON_anouncer.put(bdAnouncer2.getText().toString());
+                if (bdAnouncer3.getText().toString().length() > 0) JSON_anouncer.put(bdAnouncer3.getText().toString());
+                if (bdAnouncer4.getText().toString().length() > 0) JSON_anouncer.put(bdAnouncer4.getText().toString());
+
+                JSONObject bodyJSON = new JSONObject();
+                try {
+                    bodyJSON.put("id", bdTitle.getText().toString())
+                            .put("title", bdTitle.getText().toString())
+                            .put("category", bdCategory.getSelectedItem().toString())
+                            .put("day", bdDay.getSelectedItem().toString())
+                            .put("time", bdStartTime.getText().toString()+" ~ "+bdEndTime.getText().toString())
+                            .put("producer", JSON_producer)
+                            .put("engineer", JSON_engineer)
+                            .put("anouncer", JSON_anouncer);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                HttpCall.setBody(bodyJSON.toString());
+                HttpCall.getResponse();
+
+                if (img_selected) {
+                    HttpCall.setMethodtext("imgPUT");
+                    HttpCall.setUrltext("/api/uploadimage/"+bdTitle.getText().toString());
+                    HttpCall.setThumbnail(img_thumbnail);
+                    HttpCall.setIdtext(bdTitle.getText().toString());
+                    HttpCall.getResponse();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQ_CODE_SELECT_IMAGE) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                try {
+                    Log.d("ImgSuccess", "ASDF");
+                    Uri uri = data.getData();
+                    String[] filepath = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getBaseContext().getContentResolver().query(uri, filepath, null, null, null);
+                    cursor.moveToFirst();
+                    final String imagepath = cursor.getString(cursor.getColumnIndex(filepath[0]));
+                    cursor.close();
+
+                    img_thumbnail = new File(imagepath);
+                    img_selected = true;
+                    select_thumbnail.setText("SELECTED");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
