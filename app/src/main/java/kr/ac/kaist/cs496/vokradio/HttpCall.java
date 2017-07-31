@@ -112,17 +112,16 @@ public class HttpCall extends Activity {
     }
 
     public static class statusPutExample {
+        public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
 
-        String put(String url, String status, ArrayList<String> songs) throws IOException {
-            RequestBody formBody;
-            formBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("status", status)
-                    .addFormDataPart("songs[]", TextUtils.join(",", songs))
+        String put(String url, String json) throws IOException {
+            RequestBody formBody = RequestBody.create(JSON, json);
+            Request request = new Request.Builder()
+                    .url(url)
+                    .put(formBody)
                     .build();
 
-            Request request = new Request.Builder().url(url).put(formBody).build();
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
             return response.body().string();
@@ -260,6 +259,18 @@ public class HttpCall extends Activity {
                 e.printStackTrace();
             }
             return mThread.getResponse();
+        } else if (method.equals("statusPUT")) {
+            statusputexample = new statusPutExample();
+            response = null;
+
+            statusputThread mThread = new statusputThread();
+            mThread.start();
+            try {
+                mThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return mThread.getResponse();
         }
 
         return null;
@@ -307,6 +318,23 @@ public class HttpCall extends Activity {
         public void run() {
             try {
                 response = imgputexample.put("http://52.78.17.108:8080" + urltext, thumbnail, id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public String getResponse() {
+            return response;
+        }
+    }
+
+    public static class statusputThread extends Thread {
+        static String response;
+
+        @Override
+        public void run() {
+            try {
+                response = statusputexample.put("http://52.78.17.108:8080" + urltext,body);
             } catch (IOException e) {
                 e.printStackTrace();
             }

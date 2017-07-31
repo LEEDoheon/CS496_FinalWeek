@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="방송 상태"
+            android:layout_marginRight="30dp"/>
+        <Switch
+            android:id="@+id/onair_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:track="@drawable/switch_track_selector"
+            android:thumb="@drawable/switch_thumb_selector"
+            android:textOn="On-air"
+            android:textOff="Off"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <EditText
+                android:id="@+id/music1"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <EditText
+                android:id="@+id/music2"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music3"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <EditText
+                android:id="@+id/music3"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music4"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <EditText
+                android:id="@+id/music4"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <EditText
+                android:id="@+id/music5"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music6"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <EditText
+                android:id="@+id/music6"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music7"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <EditText
+                android:id="@+id/music7"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music8"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <EditText
+                android:id="@+id/music8"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/onair_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUBMIT"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"/>
+</LinearLayout>

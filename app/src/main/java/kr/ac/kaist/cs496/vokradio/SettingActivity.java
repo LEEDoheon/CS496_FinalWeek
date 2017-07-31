@@ -157,6 +157,7 @@ public class SettingActivity extends AppCompatActivity {
             rowTitle.setText(items.get(position).title);
             rowCategory.setText(items.get(position).category);
             if (!items.get(position).status) rowStatus.setImageResource(R.drawable.grey_dot);
+            if (items.get(position).status) rowStatus.setImageResource(R.drawable.red_dot);
 
             return v;
         }
@@ -179,9 +180,11 @@ public class SettingActivity extends AppCompatActivity {
                                 intent.putExtra("title", cast.title);
                                 startActivity(intent);
                             } else if (i == 1) {
+                                /*
                                 Intent intent = new Intent(context, ModifyBdActivity.class);
                                 intent.putExtra("title", cast.title);
                                 startActivity(intent);
+                                */
                             } else if (i == 2) {
                                 HttpCall.setMethodtext("DELETE");
                                 HttpCall.setUrltext("/api/broadcast/"+cast.title);
