@@ -8,17 +8,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="20dp"
-        android:weightSum="9">
+        android:weightSum="8.8">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ID"/>
+            android:layout_weight="1.2"
+            android:text="Email"/>
         <EditText
             android:id="@+id/login_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="8"/>
+            android:layout_weight="8"
+            android:inputType="textEmailAddress"/>
     </LinearLayout>
 
     <LinearLayout
@@ -28,17 +29,18 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:weightSum="9">
+        android:weightSum="8.8">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:text="PW"/>
         <EditText
             android:id="@+id/login_pw"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="8"/>
+            android:layout_weight="8"
+            android:inputType="textPassword"/>
     </LinearLayout>
 
     <Button
@@ -46,7 +48,14 @@
         android:id="@+id/login_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SUBMIT"
+        android:text="Log In"
+        android:paddingLeft="18dip"
+        android:paddingRight="20dip"
+        android:drawablePadding="18dip"
+        android:drawableLeft="@drawable/key_2"
+        android:gravity="left|center_vertical"
+        android:background="#F2F2F2"
+        android:textColor="#454545"
         android:layout_marginTop="20dp"/>
 
 </LinearLayout>

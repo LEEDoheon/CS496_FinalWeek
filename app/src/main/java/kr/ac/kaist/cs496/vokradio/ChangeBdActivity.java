@@ -1,8 +1,10 @@
 package kr.ac.kaist.cs496.vokradio;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +45,11 @@ public class ChangeBdActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_broadcast);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_bar_2);
+        TextView appname = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.customBar);
+        appname.setTypeface(Typeface.createFromAsset(getAssets(), "Lobster_1.3.otf"));
         bdTitle = getIntent().getStringExtra("title");
 
         onairSwitch = (Switch) findViewById(R.id.onair_switch);

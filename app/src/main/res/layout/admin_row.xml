@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="broadcast"
-            android:textSize="15dp"/>
+            android:textSize="12dp"/>
     </LinearLayout>
 
     <LinearLayout

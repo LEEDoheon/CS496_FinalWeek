@@ -8,15 +8,16 @@
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
-        android:layout_height="207dp"
-        android:background="@drawable/landscape">
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/landscape">
 
     </ImageView>
 
     <ImageView
         android:id="@+id/blackImage"
         android:layout_width="match_parent"
-        android:layout_height="207dp"
+        android:layout_height="160dp"
         android:alpha="0.4"
         android:background="#000000">
 
@@ -31,27 +32,61 @@
             android:id="@+id/LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:weightSum="1">
 
             <ImageView
                 android:id="@+id/liveImage"
                 android:layout_width="49dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/officon"></ImageView>
+                android:layout_height="31dp"
+                android:src="@drawable/officon"
+                android:layout_marginRight="15dp"
+                android:layout_weight="0.00"></ImageView>
 
-            <TextView
-                android:id="@+id/titleText"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="18dp"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:textColor="#ffffff"
-                android:textSize="26sp"
-                />
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/dayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/categoryText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textColor="#ffffff"
+                    android:textSize="26sp"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -64,34 +99,33 @@
             android:background="@drawable/border">
 
             <TextView
-                android:id="@+id/categoryText"
+                android:id="@+id/pdText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="TextView"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="PD: 가나다"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/dayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="TextView"
-                android:textColor="#ffffff"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/timeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="TextView"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="|"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/engText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="ENG: 가나다"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -106,29 +140,9 @@
                 android:id="@+id/annText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
                 android:text="ANN: 가나다 가나다"
-                android:textColor="#ffffff"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/pdText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="PD: 가나다"
-                android:textColor="#ffffff"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/engText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="ENG: 가나다"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
 

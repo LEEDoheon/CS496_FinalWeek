@@ -1,18 +1,26 @@
 package kr.ac.kaist.cs496.vokradio;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +67,13 @@ public class CreateBdActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.broadcast_create);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_bar_2);
+        TextView appname = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.customBar);
+        appname.setTypeface(Typeface.createFromAsset(getAssets(), "Lobster_1.3.otf"));
+
+        askForPermissions();
 
         bdTitle = (EditText) findViewById(R.id.create_title);
         bdCategory = (Spinner) findViewById(R.id.create_category);
@@ -124,11 +139,24 @@ public class CreateBdActivity extends AppCompatActivity {
                 HttpCall.setBody(bodyJSON.toString());
                 HttpCall.getResponse();
 
+                HttpCall.setMethodtext("GET");
+                HttpCall.setUrltext("/api/broadcast/"+bdTitle.getText().toString());
+                JSONObject toGetId = new JSONObject();
+                try {
+                    toGetId = new JSONObject(HttpCall.getResponse());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 if (img_selected) {
                     HttpCall.setMethodtext("imgPUT");
                     HttpCall.setUrltext("/api/uploadimage/"+bdTitle.getText().toString());
                     HttpCall.setThumbnail(img_thumbnail);
-                    HttpCall.setIdtext(bdTitle.getText().toString());
+                    try {
+                        HttpCall.setIdtext(toGetId.getString("_id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     HttpCall.getResponse();
                 }
 
@@ -158,6 +186,14 @@ public class CreateBdActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        }
+    }
+
+    public void askForPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
         }
     }

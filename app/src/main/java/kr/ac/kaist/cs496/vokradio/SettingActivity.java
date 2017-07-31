@@ -4,7 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,6 +79,11 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_bar_2);
+        TextView appname = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.customBar);
+        appname.setTypeface(Typeface.createFromAsset(getAssets(), "Lobster_1.3.otf"));
         context = this;
         if (!UserInfo.isLogined()) {
             setContentView(R.layout.activity_setting_guest);
@@ -186,8 +194,14 @@ public class SettingActivity extends AppCompatActivity {
 
             rowTitle.setText(items.get(position).title);
             rowCategory.setText(items.get(position).category);
-            if (!items.get(position).status) rowStatus.setImageResource(R.drawable.grey_dot);
-            if (items.get(position).status) rowStatus.setImageResource(R.drawable.red_dot);
+            if (!items.get(position).status) {
+                rowStatus.setImageResource(R.drawable.grey_dot);
+                rowTitle.setTextColor(Color.GRAY);
+            }
+            if (items.get(position).status) {
+                rowStatus.setImageResource(R.drawable.red_dot);
+                rowTitle.setTextColor(Color.RED);
+            }
 
             return v;
         }

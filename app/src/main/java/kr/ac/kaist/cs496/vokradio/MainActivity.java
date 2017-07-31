@@ -3,6 +3,7 @@ package kr.ac.kaist.cs496.vokradio;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -10,6 +11,7 @@ import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_bar);
+        TextView appname = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.customBar);
+        appname.setTypeface(Typeface.createFromAsset(getAssets(), "Lobster_1.3.otf"));
 
         //BackgroundImage Blurring
         backgroundImage = (ImageView) findViewById(R.id.backgroundImageView);

@@ -2,14 +2,17 @@ package kr.ac.kaist.cs496.vokradio;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -30,6 +33,11 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_bar_2);
+        TextView appname = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.customBar);
+        appname.setTypeface(Typeface.createFromAsset(getAssets(), "Lobster_1.3.otf"));
         context = this;
 
         loginId = (EditText) findViewById(R.id.login_id);
