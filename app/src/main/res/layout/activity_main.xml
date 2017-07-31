@@ -19,17 +19,8 @@
         android:layout_marginTop="20dp"
         android:text="방송제목"
         android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+        android:textSize="35sp" />
 
-    <TextView
-        android:id="@+id/broadcasterName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/broadcastTitle"
-        android:layout_centerHorizontal="true"
-        android:text="만든 사람들"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/syncImage"
@@ -44,7 +35,7 @@
         android:id="@+id/songPlayerTopLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/broadcasterName"
+        android:layout_below="@+id/broadcastTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp">
 

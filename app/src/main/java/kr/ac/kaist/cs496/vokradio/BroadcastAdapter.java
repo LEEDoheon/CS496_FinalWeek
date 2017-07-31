@@ -8,7 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by q on 2017-07-31.
@@ -22,8 +27,61 @@ public class BroadcastAdapter extends BaseAdapter{
         return items.size();
     }
 
-    public void addItem(BroadcastItem item) {
-        items.add(item);
+    //AddItem using JSONArray
+    public void addItem(JSONArray jArray) {
+        try{
+            for(int i = 0; i < jArray.length();i++){
+                BroadcastItem tempItem = new BroadcastItem();
+                JSONObject jItem = jArray.getJSONObject(i);
+
+                tempItem.setId(jItem.optString("id"));
+                tempItem.setTitle(jItem.optString("title"));
+                tempItem.setCategory(jItem.optString("category"));
+                tempItem.setDay(jItem.optString("day"));
+                tempItem.setTime(jItem.optString("time"));
+                tempItem.setThumbnail(jItem.optString("thumbnail"));
+
+                if(!jItem.optString("status").equals("off")){
+                    tempItem.setOnAir(true);
+                }else{
+                    tempItem.setOnAir(false);
+                }
+
+
+                JSONArray tempArray = new JSONArray(jItem.optString("producer"));
+                List<String> temps = new ArrayList<String>();
+                for(int j = 0; j<tempArray.length();j++) {
+                    temps.add(tempArray.get(j).toString());
+                }
+                tempItem.setProducer(temps);
+
+                tempArray = new JSONArray(jItem.optString("engineer"));
+                temps = new ArrayList<String>();
+                for(int j = 0; j<tempArray.length();j++) {
+                    temps.add(tempArray.get(j).toString());
+                }
+                tempItem.setEngineer(temps);
+
+                tempArray = new JSONArray(jItem.optString("anouncer"));
+                temps = new ArrayList<String>();
+                for(int j = 0; j<tempArray.length();j++) {
+                    temps.add(tempArray.get(j).toString());
+                }
+                tempItem.setAnouncer(temps);
+
+                tempArray = new JSONArray(jItem.optString("songs"));
+                temps = new ArrayList<String>();
+                for(int j = 0; j<tempArray.length();j++) {
+                    temps.add(tempArray.get(j).toString());
+                }
+                tempItem.setSongs(temps);
+
+                items.add(tempItem);
+
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -47,13 +105,46 @@ public class BroadcastAdapter extends BaseAdapter{
         }
 
         TextView titleTextView = (TextView) convertView.findViewById(R.id.titleText);
+        TextView categoryTextView = (TextView) convertView.findViewById(R.id.categoryText);
+        TextView dayTextView = (TextView) convertView.findViewById(R.id.dayText);
+        TextView timeTextView = (TextView) convertView.findViewById(R.id.timeText);
         TextView ANNTextView = (TextView) convertView.findViewById(R.id.annText);
+        TextView ENGTextView = (TextView) convertView.findViewById(R.id.engText);
+        TextView PDTextView = (TextView) convertView.findViewById(R.id.pdText);
         ImageView backgroundImage = (ImageView) convertView.findViewById(R.id.backgroundImage);
+        ImageView onAirImage = (ImageView) convertView.findViewById(R.id.liveImage);
 
         final BroadcastItem broadcastItem = items.get(position);
 
-        titleTextView.setText(broadcastItem.getTitle());
-        ANNTextView.setText("ANN:" +broadcastItem.getId());
+        titleTextView.setText(broadcastItem.getId());
+        categoryTextView.setText(broadcastItem.getCategory());
+        dayTextView.setText(broadcastItem.getDay());
+        timeTextView.setText(broadcastItem.getTime());
+        //ANN
+        String temp = "ANN:";
+        List<String> temps = broadcastItem.getAnouncer();
+        for(int i = 0; i < temps.size();i++){
+            temp += " "+ temps.get(i);
+        }
+        ANNTextView.setText(temp);
+        //ENG
+        temp = "ENG:";
+        temps = broadcastItem.getEngineer();
+        for(int i = 0; i < temps.size();i++){
+            temp += " "+ temps.get(i);
+        }
+        ENGTextView.setText(temp);
+        //PD
+        temp = "PD:";
+        temps = broadcastItem.getProducer();
+        for(int i = 0; i < temps.size();i++){
+            temp += " "+ temps.get(i);
+        }
+        PDTextView.setText(temp);
+
+        if(broadcastItem.getOnAir()){
+            onAirImage.setImageResource(R.drawable.liveicon);
+        }
 
         return convertView;
 

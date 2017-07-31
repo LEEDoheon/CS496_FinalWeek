@@ -16,8 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import wseemann.media.FFmpegMediaPlayer;
 
@@ -56,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
             circularImage.setBackground(new ShapeDrawable(new OvalShape()));
             circularImage.setClipToOutline(true);
         }
-
 
         // PlayButton Control
         control = (ImageView) findViewById(R.id.control);
@@ -119,6 +120,21 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+
+        //ExtraSetting
+        //이부분이 시작화면일경우 주석처리하면됩니다.
+        TextView title = (TextView) findViewById(R.id.broadcastTitle);
+        TextView songText = (TextView) findViewById(R.id.songText);
+
+        Intent intent = getIntent();
+        title.setText(intent.getStringExtra("title"));
+        ArrayList<String> songs = intent.getStringArrayListExtra("songs");
+        String songBuilder = "";
+        for(int k = 0 ; k < songs.size(); k++){
+            songBuilder += Integer.toString(k+1) + " : " + songs.get(k)+"\n";
+        }
+        songText.setText(songBuilder);
 
 
         //Media Loading
