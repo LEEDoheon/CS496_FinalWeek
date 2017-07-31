@@ -19,6 +19,7 @@ public class HttpCall extends Activity {
     private static GetExample getexample = new GetExample();
     private static PostExample postexample = new PostExample();
     private static PutExample putexample = new PutExample();
+    private static imgPutExample imgputexample = new imgPutExample();
 
     private static File thumbnail = null;
     private static String method = "";
@@ -39,8 +40,9 @@ public class HttpCall extends Activity {
     private static ArrayList<String> songs = new ArrayList<>();
     private static String response = "";
     private static String status = "";
+    private static String body = "";
 
-
+    public static void setBody(String s) { body = s; }
     public static void setMethodtext(String s) { method = s; }
     public static void setUrltext(String s) { urltext = s; }
     public static void setEmailtext(String s) { email = s; }
@@ -82,10 +84,13 @@ public class HttpCall extends Activity {
 
         OkHttpClient client = new OkHttpClient();
 
-        String post(String url, File file, String email, String name, String job, String yearnumber, String password,
-                    String id, String title, String category, String day, ArrayList<String> producer,
-                    ArrayList<String> engineer, ArrayList<String> anouncer) throws IOException {
-            RequestBody formBody;
+        String post(String url, String json) throws IOException {
+            RequestBody formBody = RequestBody.create(JSON, json);
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(formBody)
+                    .build();
+            /*
             if (url.contains("admin")) {
                 formBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
@@ -124,10 +129,37 @@ public class HttpCall extends Activity {
                             //.addFormDataPart("engineer[]", TextUtils.join(",", engineer))
                             //.addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
                             .build();
+                    Log.d("BBBBBAAAAAAAAAAA", "!!!");
                 }
             }
+            */
 
-            Request request = new Request.Builder().url(url).post(formBody).build();
+            //Request request = new Request.Builder().url(url).post(formBody).build();
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        }
+    }
+
+    public static class imgPutExample {
+        OkHttpClient client = new OkHttpClient();
+
+        String put(String url, File file, String id) throws IOException {
+            RequestBody formBody;
+            if (file != null) {
+                String filenameArray[] = file.getName().split("\\.");
+                String ext = filenameArray[filenameArray.length - 1];
+                formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("id", id)
+                        .addFormDataPart("thumbnail", file.getName(), RequestBody.create(MediaType.parse("image/" + ext), file))
+                        .build();
+            } else {
+                formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .build();
+            }
+
+            Request request = new Request.Builder().url(url).put(formBody).build();
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
             return response.body().string();
@@ -234,6 +266,18 @@ public class HttpCall extends Activity {
                 e.printStackTrace();
             }
             return mThread.getResponse();
+        } else if (method.equals("imgPUT")) {
+            imgputexample = new imgPutExample();
+            response = null;
+
+            imgputThread mThread = new imgputThread();
+            mThread.start();
+            try {
+                mThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return mThread.getResponse();
         }
 
         return null;
@@ -257,14 +301,34 @@ public class HttpCall extends Activity {
         }
     }
 
+    public static class imgputThread extends Thread {
+        static String response;
+
+        @Override
+        public void run() {
+            try {
+                response = imgputexample.put("http://52.78.17.108:8080" + urltext, thumbnail, id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public String getResponse() {
+            return response;
+        }
+    }
+
     public static class postThread extends Thread {
         static String response;
 
         @Override
         public void run() {
             try {
+                /*
                 response = postexample.post("http://52.78.17.108:8080" + urltext, thumbnail, email, name, job, yearnumber, password, id,
                         title, category, day, producer, engineer, anouncer);
+                        */
+                response = postexample.post("http://52.78.17.108:8080" + urltext,body);
             } catch (IOException e) {
                 e.printStackTrace();
             }
