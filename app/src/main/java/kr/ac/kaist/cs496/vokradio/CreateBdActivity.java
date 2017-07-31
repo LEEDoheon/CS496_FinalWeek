@@ -131,6 +131,8 @@ public class CreateBdActivity extends AppCompatActivity {
                     HttpCall.setIdtext(bdTitle.getText().toString());
                     HttpCall.getResponse();
                 }
+
+                finish();
             }
         });
     }

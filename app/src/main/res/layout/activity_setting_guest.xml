@@ -24,7 +24,7 @@
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOGOIN"
+        android:text="LOGIN"
         android:paddingLeft="18dip"
         android:drawablePadding="18dip"
         android:drawableLeft="@drawable/key"

@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 UserInfo.Login(user_id);
                                 Log.d("Login Successful", user_id);
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             } catch (JSONException e) {

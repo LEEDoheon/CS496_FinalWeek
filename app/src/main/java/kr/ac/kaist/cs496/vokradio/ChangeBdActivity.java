@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -127,6 +128,8 @@ public class ChangeBdActivity extends AppCompatActivity {
                 Log.d("heyhey", body.toString());
                 HttpCall.setBody(body.toString());
                 HttpCall.getResponse();
+
+                finish();
             }
         });
     }

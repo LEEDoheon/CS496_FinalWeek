@@ -44,6 +44,36 @@ public class SettingActivity extends AppCompatActivity {
     CustomAdapter adapter;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            getBroadCasts();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (adapter != null) {
+            adapter = new CustomAdapter(this, R.layout.admin_row, castList);
+            adminListView.setAdapter(adapter);
+            adminListView.setOnItemClickListener(adminListListener);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            getBroadCasts();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (adapter != null) {
+            adapter = new CustomAdapter(this, R.layout.admin_row, castList);
+            adminListView.setAdapter(adapter);
+            adminListView.setOnItemClickListener(adminListListener);
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
@@ -78,7 +108,7 @@ public class SettingActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     UserInfo.Logout();
-                    Intent intent = new Intent(context, MainActivity.class);
+                    Intent intent = new Intent(context, MenuActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
@@ -189,6 +219,8 @@ public class SettingActivity extends AppCompatActivity {
                                 HttpCall.setMethodtext("DELETE");
                                 HttpCall.setUrltext("/api/broadcast/"+cast.title);
                                 HttpCall.getResponse();
+
+                                onResume();
                             }
                         }
                     }
