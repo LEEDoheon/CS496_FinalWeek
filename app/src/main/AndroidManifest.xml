@@ -24,7 +24,8 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CreateBdActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
