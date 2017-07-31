@@ -1,5 +1,6 @@
 package kr.ac.kaist.cs496.vokradio;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,11 +40,12 @@ public class MenuActivity extends AppCompatActivity{
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
                 BroadcastItem item = (BroadcastItem) adapter.getItem(position);
-                Intent intent = new Intent(MenuActivity.this, MainActivity.class);
-                intent.putExtra("title", item.getTitle());
-                intent.putStringArrayListExtra("songs", new ArrayList<String>(item.getSongs()));
-                //intent.putExtra("BJ", "ANN: ")
-                startActivity(intent);
+                if(item.getOnAir()) {
+                    Intent intent = new Intent(MenuActivity.this, MainActivity.class);
+                    intent.putExtra("title", item.getTitle());
+                    intent.putStringArrayListExtra("songs", new ArrayList<String>(item.getSongs()));
+                    startActivity(intent);
+                }
                 //Toast.makeText(MenuActivity.this, Boolean.toString(item.getOnAir()), Toast.LENGTH_SHORT).show();
             }
         });
@@ -76,6 +80,10 @@ public class MenuActivity extends AppCompatActivity{
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
 }
