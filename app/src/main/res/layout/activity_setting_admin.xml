@@ -12,7 +12,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_setting_grey"
+            android:src="@drawable/microphone"
             android:layout_marginRight="20dp"/>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -34,31 +34,42 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/create_broadcast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="방송 등록"
-        android:padding="20dp"/>
-
-    <Button
-        android:id="@+id/modify_broadcast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="방송 수정"
-        android:padding="20dp"/>
-
-    <Button
-        android:id="@+id/onair_broadcast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="방송 상태 변경"
-        android:padding="20dp"/>
-
-    <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:padding="20dp"/>
+        android:text="LOGOUT"
+        android:paddingLeft="18dip"
+        android:drawablePadding="18dip"
+        android:drawableLeft="@drawable/key"
+        android:gravity="left|center_vertical"
+        android:background="#ffffff"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_centerInParent="true"
+        android:background="#C8C8C8"/>
+
+    <Button
+        android:id="@+id/create_broadcast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register Brodcast"
+        android:paddingLeft="18dip"
+        android:drawablePadding="18dip"
+        android:drawableLeft="@drawable/wifi"
+        android:gravity="left|center_vertical"
+        android:background="#ffffff"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_centerInParent="true"
+        android:background="#C8C8C8"/>
+
+    <ListView
+        android:id="@+id/adminListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

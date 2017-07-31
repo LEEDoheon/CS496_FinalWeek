@@ -1,6 +1,7 @@
 package kr.ac.kaist.cs496.vokradio;
 
 import android.app.Activity;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,7 +19,9 @@ import okhttp3.Response;
 public class HttpCall extends Activity {
     private static GetExample getexample = new GetExample();
     private static PostExample postexample = new PostExample();
+    private static DeleteExample deleteexample = new DeleteExample();
     private static PutExample putexample = new PutExample();
+    private static statusPutExample statusputexample = new statusPutExample();
     private static imgPutExample imgputexample = new imgPutExample();
 
     private static File thumbnail = null;
@@ -90,52 +93,38 @@ public class HttpCall extends Activity {
                     .url(url)
                     .post(formBody)
                     .build();
-            /*
-            if (url.contains("admin")) {
-                formBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("email", email)
-                        .addFormDataPart("name", name)
-                        .addFormDataPart("job", job)
-                        .addFormDataPart("yearnumber", yearnumber)
-                        .addFormDataPart("password", password)
-                        .build();
-            } else {
-                if (file != null) {
-                    String filenameArray[] = file.getName().split("\\.");
-                    String ext = filenameArray[filenameArray.length - 1];
-                    formBody = new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("id", id)
-                            .addFormDataPart("title", title)
-                            .addFormDataPart("category", category)
-                            .addFormDataPart("day", day)
-                            .addFormDataPart("time", time)
-                            .addFormDataPart("producer[]", TextUtils.join(",", producer))
-                            .addFormDataPart("engineer[]", TextUtils.join(",", engineer))
-                            .addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
-                            .addFormDataPart("thumbnail", file.getName(), RequestBody.create(MediaType.parse("image/" + ext), file))
-                            .build();
-                } else {
-                    Log.d("AAAAAAAAAAAAAAAAAAAAAAA", "!!!");
-                    formBody = new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("id", id)
-                            .addFormDataPart("title", title)
-                            .addFormDataPart("category", category)
-                            .addFormDataPart("day", day)
-                            .addFormDataPart("time", time)
-                            //.addFormDataPart("producer[]", TextUtils.join(",", producer))
-                            //.addFormDataPart("engineer[]", TextUtils.join(",", engineer))
-                            //.addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
-                            .build();
-                    Log.d("BBBBBAAAAAAAAAAA", "!!!");
-                }
-            }
-            */
-
-            //Request request = new Request.Builder().url(url).post(formBody).build();
             Response response = client.newCall(request).execute();
+            return response.body().string();
+        }
+    }
+
+    public static class DeleteExample {
+        OkHttpClient client = new OkHttpClient();
+        
+        String delete(String url) throws IOException {
+            Request request = new Request.Builder()
+                    .url(url)
+                    .delete()
+                    .build();
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        }
+    }
+
+    public static class statusPutExample {
+        OkHttpClient client = new OkHttpClient();
+
+        String put(String url, String status, ArrayList<String> songs) throws IOException {
+            RequestBody formBody;
+            formBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("status", status)
+                    .addFormDataPart("songs[]", TextUtils.join(",", songs))
+                    .build();
+
+            Request request = new Request.Builder().url(url).put(formBody).build();
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
             return response.body().string();
         }
     }
@@ -169,53 +158,34 @@ public class HttpCall extends Activity {
     public static class PutExample {
         OkHttpClient client = new OkHttpClient();
 
-        String put(String url, File file, String email, String name, String job, String yearnumber, String password,
-                   String id, String title, String category, String day, ArrayList<String> producer,
-                   ArrayList<String> engineer, ArrayList<String> anouncer, ArrayList<String> songs, String status) throws IOException {
+        String put(String url, File file, String title, String category, String day, ArrayList<String> producer,
+                   ArrayList<String> engineer, ArrayList<String> anouncer) throws IOException {
             RequestBody formBody;
-            if (url.contains("admin")) {
+            if (file != null) {
+                String filenameArray[] = file.getName().split("\\.");
+                String ext = filenameArray[filenameArray.length - 1];
                 formBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("name", name)
-                        .addFormDataPart("password", password)
-                        .build();
-            } else if (url.contains("song")) {
-                formBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("songs", TextUtils.join(",", songs))
-                        .build();
-            } else if (url.contains("onair")) {
-                formBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("status", status)
+                        .addFormDataPart("title", title)
+                        .addFormDataPart("category", category)
+                        .addFormDataPart("day", day)
+                        .addFormDataPart("time", time)
+                        .addFormDataPart("producer[]", TextUtils.join(",", producer))
+                        .addFormDataPart("engineer[]", TextUtils.join(",", engineer))
+                        .addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
+                        .addFormDataPart("thumbnail", file.getName(), RequestBody.create(MediaType.parse("image/" + ext), file))
                         .build();
             } else {
-                if (file != null) {
-                    String filenameArray[] = file.getName().split("\\.");
-                    String ext = filenameArray[filenameArray.length - 1];
-                    formBody = new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("title", title)
-                            .addFormDataPart("category", category)
-                            .addFormDataPart("day", day)
-                            .addFormDataPart("time", time)
-                            .addFormDataPart("producer[]", TextUtils.join(",", producer))
-                            .addFormDataPart("engineer[]", TextUtils.join(",", engineer))
-                            .addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
-                            .addFormDataPart("thumbnail", file.getName(), RequestBody.create(MediaType.parse("image/" + ext), file))
-                            .build();
-                } else {
-                    formBody = new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("title", title)
-                            .addFormDataPart("category", category)
-                            .addFormDataPart("day", day)
-                            .addFormDataPart("time", time)
-                            .addFormDataPart("producer[]", TextUtils.join(",", producer))
-                            .addFormDataPart("engineer[]", TextUtils.join(",", engineer))
-                            .addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
-                            .build();
-                }
+                formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("title", title)
+                        .addFormDataPart("category", category)
+                        .addFormDataPart("day", day)
+                        .addFormDataPart("time", time)
+                        .addFormDataPart("producer[]", TextUtils.join(",", producer))
+                        .addFormDataPart("engineer[]", TextUtils.join(",", engineer))
+                        .addFormDataPart("anouncer[]", TextUtils.join(",", anouncer))
+                        .build();
             }
 
             Request request = new Request.Builder().url(url).put(formBody).build();
@@ -254,6 +224,18 @@ public class HttpCall extends Activity {
             }
             return mThread.getResponse();
 
+        } else if (method.equals("DELETE")) {
+            deleteexample = new DeleteExample();
+            response = null;
+
+            deleteThread mThread = new deleteThread();
+            mThread.start();
+            try {
+                mThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return mThread.getResponse();
         } else if (method.equals("PUT")) {
             putexample = new PutExample();
             response = null;
@@ -289,8 +271,25 @@ public class HttpCall extends Activity {
         @Override
         public void run() {
             try {
-                response = putexample.put("http://52.78.17.108:8080" + urltext, thumbnail, email, name, job, yearnumber, password, id,
-                        title, category, day, producer, engineer, anouncer, songs, status);
+                response = putexample.put("http://52.78.17.108:8080" + urltext, thumbnail,
+                        title, category, day, producer, engineer, anouncer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public String getResponse() {
+            return response;
+        }
+    }
+
+    public static class deleteThread extends Thread {
+        static String response;
+
+        @Override
+        public void run() {
+            try {
+                response = deleteexample.delete("http://52.78.17.108:8080" + urltext);
             } catch (IOException e) {
                 e.printStackTrace();
             }
