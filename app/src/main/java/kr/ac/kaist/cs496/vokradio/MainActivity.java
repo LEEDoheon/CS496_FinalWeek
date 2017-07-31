@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.tsengvn.typekit.TypekitContextWrapper;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -214,5 +216,12 @@ public class MainActivity extends AppCompatActivity {
         if(prepared){
             mediaPlayer.release();
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+
     }
 }
