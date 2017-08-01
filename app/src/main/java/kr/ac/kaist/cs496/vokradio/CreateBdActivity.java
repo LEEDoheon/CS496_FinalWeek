@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -15,7 +14,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,10 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -95,8 +89,6 @@ public class CreateBdActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
-                //intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                //intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
                 startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
             }
@@ -110,18 +102,26 @@ public class CreateBdActivity extends AppCompatActivity {
                 HttpCall.setUrltext("/api/addbroadcast");
 
                 JSONArray JSON_producer = new JSONArray();
-                if (bdProducer1.getText().toString().length() > 0) JSON_producer.put(bdProducer1.getText().toString());
-                if (bdProducer2.getText().toString().length() > 0) JSON_producer.put(bdProducer2.getText().toString());
+                if (bdProducer1.getText().toString().length() > 0)
+                    JSON_producer.put(bdProducer1.getText().toString());
+                if (bdProducer2.getText().toString().length() > 0)
+                    JSON_producer.put(bdProducer2.getText().toString());
 
                 JSONArray JSON_engineer = new JSONArray();
-                if (bdEngineer1.getText().toString().length() > 0) JSON_engineer.put(bdEngineer1.getText().toString());
-                if (bdEngineer2.getText().toString().length() > 0) JSON_engineer.put(bdEngineer2.getText().toString());
+                if (bdEngineer1.getText().toString().length() > 0)
+                    JSON_engineer.put(bdEngineer1.getText().toString());
+                if (bdEngineer2.getText().toString().length() > 0)
+                    JSON_engineer.put(bdEngineer2.getText().toString());
 
                 JSONArray JSON_anouncer = new JSONArray();
-                if (bdAnouncer1.getText().toString().length() > 0) JSON_anouncer.put(bdAnouncer1.getText().toString());
-                if (bdAnouncer2.getText().toString().length() > 0) JSON_anouncer.put(bdAnouncer2.getText().toString());
-                if (bdAnouncer3.getText().toString().length() > 0) JSON_anouncer.put(bdAnouncer3.getText().toString());
-                if (bdAnouncer4.getText().toString().length() > 0) JSON_anouncer.put(bdAnouncer4.getText().toString());
+                if (bdAnouncer1.getText().toString().length() > 0)
+                    JSON_anouncer.put(bdAnouncer1.getText().toString());
+                if (bdAnouncer2.getText().toString().length() > 0)
+                    JSON_anouncer.put(bdAnouncer2.getText().toString());
+                if (bdAnouncer3.getText().toString().length() > 0)
+                    JSON_anouncer.put(bdAnouncer3.getText().toString());
+                if (bdAnouncer4.getText().toString().length() > 0)
+                    JSON_anouncer.put(bdAnouncer4.getText().toString());
 
                 JSONObject bodyJSON = new JSONObject();
                 try {
@@ -129,7 +129,7 @@ public class CreateBdActivity extends AppCompatActivity {
                             .put("title", bdTitle.getText().toString())
                             .put("category", bdCategory.getSelectedItem().toString())
                             .put("day", bdDay.getSelectedItem().toString())
-                            .put("time", bdStartTime.getText().toString()+" ~ "+bdEndTime.getText().toString())
+                            .put("time", bdStartTime.getText().toString() + " ~ " + bdEndTime.getText().toString())
                             .put("producer", JSON_producer)
                             .put("engineer", JSON_engineer)
                             .put("anouncer", JSON_anouncer);
@@ -141,7 +141,7 @@ public class CreateBdActivity extends AppCompatActivity {
                 HttpCall.getResponse();
 
                 HttpCall.setMethodtext("GET");
-                HttpCall.setUrltext("/api/broadcast/"+bdTitle.getText().toString());
+                HttpCall.setUrltext("/api/broadcast/" + bdTitle.getText().toString());
                 JSONObject toGetId = new JSONObject();
                 try {
                     toGetId = new JSONObject(HttpCall.getResponse());
@@ -151,7 +151,7 @@ public class CreateBdActivity extends AppCompatActivity {
 
                 if (img_selected) {
                     HttpCall.setMethodtext("imgPUT");
-                    HttpCall.setUrltext("/api/uploadimage/"+bdTitle.getText().toString());
+                    HttpCall.setUrltext("/api/uploadimage/" + bdTitle.getText().toString());
                     HttpCall.setThumbnail(img_thumbnail);
                     try {
                         HttpCall.setIdtext(toGetId.getString("_id"));
@@ -173,7 +173,6 @@ public class CreateBdActivity extends AppCompatActivity {
         if (requestCode == REQ_CODE_SELECT_IMAGE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 try {
-                    Log.d("ImgSuccess", "ASDF");
                     Uri uri = data.getData();
                     String[] filepath = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getBaseContext().getContentResolver().query(uri, filepath, null, null, null);

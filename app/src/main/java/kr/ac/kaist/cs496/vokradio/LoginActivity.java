@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     } else {
                         HttpCall.setMethodtext("GET");
-                        HttpCall.setUrltext("/api/admin/"+user_id);
+                        HttpCall.setUrltext("/api/admin/" + user_id);
                         String pwd = new String();
                         try {
                             JSONObject userinfo = new JSONObject(HttpCall.getResponse());
@@ -78,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             try {
                                 UserInfo.Login(user_id);
-                                Log.d("Login Successful", user_id);
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
@@ -88,8 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 }
-
-                ///
             }
         });
     }

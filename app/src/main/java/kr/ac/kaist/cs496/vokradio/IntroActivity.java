@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -13,13 +11,12 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.hanks.htextview.scale.ScaleTextView;
 
 /**
  * Created by q on 2017-08-01.
  */
 
-public class IntroActivity extends AppCompatActivity{
+public class IntroActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by q on 2017-07-31.
  */
 
-public class MenuActivity extends AppCompatActivity{
+public class MenuActivity extends AppCompatActivity {
 
     private ListView mListView;
     BroadcastAdapter adapter = new BroadcastAdapter();
@@ -48,7 +48,7 @@ public class MenuActivity extends AppCompatActivity{
         }
     }
 
-    protected void onCreate(Bundle saveInstanceState){
+    protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_menu);
 
@@ -75,19 +75,18 @@ public class MenuActivity extends AppCompatActivity{
     };
 
     void refresh() {
-        adapter = new BroadcastAdapter() ;
+        adapter = new BroadcastAdapter();
         mListView.setAdapter(adapter);
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 BroadcastItem item = (BroadcastItem) adapter.getItem(position);
-                if(item.getOnAir()) {
+                if (item.getOnAir()) {
                     Intent intent = new Intent(MenuActivity.this, MainActivity.class);
                     intent.putExtra("title", item.getTitle());
                     intent.putStringArrayListExtra("songs", new ArrayList<String>(item.getSongs()));
                     startActivity(intent);
                 }
-                //Toast.makeText(MenuActivity.this, Boolean.toString(item.getOnAir()), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -98,7 +97,7 @@ public class MenuActivity extends AppCompatActivity{
         try {
             JSONArray allbds = new JSONArray(HttpCall.getResponse());
             adapter.addItem(allbds);
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         mSwipeRefreshLayout.setRefreshing(false);

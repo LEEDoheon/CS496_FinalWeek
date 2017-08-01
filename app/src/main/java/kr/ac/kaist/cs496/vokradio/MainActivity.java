@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.media.AudioManager;
@@ -14,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,8 +75,7 @@ public class MainActivity extends AppCompatActivity {
         //BackgroundImage Blurring
         backgroundImage = (ImageView) findViewById(R.id.backgroundImageView);
         HttpCall.setMethodtext("GET");
-        HttpCall.setUrltext("/api/broadcast/"+intent.getStringExtra("title"));
-        Log.d("thistitleis", intent.getStringExtra("title"));
+        HttpCall.setUrltext("/api/broadcast/" + intent.getStringExtra("title"));
         JSONObject BroadCastInfo = new JSONObject();
         String img_path = new String();
         try {
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (img_path != null && img_path.length() > 0) {
-            final String img_path_real = "http://52.78.17.108:8080/"+img_path;
+            final String img_path_real = "http://52.78.17.108:8080/" + img_path;
             Thread thread = new Thread() {
                 public void run() {
                     InputStream in = null;
@@ -107,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
             thread.start();
-            try{
+            try {
                 thread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -144,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         volumeBar = (SeekBar) findViewById(R.id.seekBar2);
         volumeBar.setMax(maxVolume);
         volumeBar.setProgress(curVolume);
-        volumeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+        volumeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 //드래그 멈추는 순간
             }
@@ -156,17 +153,17 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 volume = progress;
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,progress,0);
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
             }
         });
 
         //Sync
         syncImage = (ImageView) findViewById(R.id.syncImage);
-        syncImage.setOnClickListener(new View.OnClickListener(){
+        syncImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 syncImage.setEnabled(false);
-                if(started){
+                if (started) {
                     mediaPlayer.stop();
                 }
                 started = false;
@@ -188,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
         title.setText(intent.getStringExtra("title"));
         ArrayList<String> songs = intent.getStringArrayListExtra("songs");
         String songBuilder = "";
-        for(int k = 0 ; k < songs.size(); k++){
-            songBuilder += Integer.toString(k+1) + " : " + songs.get(k)+"\n";
+        for (int k = 0; k < songs.size(); k++) {
+            songBuilder += Integer.toString(k + 1) + " : " + songs.get(k) + "\n";
         }
         songText.setText(songBuilder);
 
@@ -223,13 +220,13 @@ public class MainActivity extends AppCompatActivity {
     private class PlayerTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(String... strings){
+        protected Boolean doInBackground(String... strings) {
 
-            try{
+            try {
                 mediaPlayer.setDataSource(strings[0]);
                 mediaPlayer.prepare();
                 prepared = true;
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return prepared;
@@ -237,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute (Boolean aBoolean){
+        protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             mediaPlayer.start();
             control.setEnabled(true);
@@ -250,17 +247,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        if(started){
+        if (started) {
             mediaPlayer.pause();
         }
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        if(started){
+        if (started) {
             mediaPlayer.start();
         }
     }
@@ -268,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(prepared){
+        if (prepared) {
             mediaPlayer.release();
         }
     }

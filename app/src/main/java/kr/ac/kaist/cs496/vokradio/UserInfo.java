@@ -17,7 +17,7 @@ public class UserInfo {
     public static void Login(String email) throws JSONException {
         login_status = true;
         HttpCall.setMethodtext("GET");
-        HttpCall.setUrltext("/api/admin/"+email);
+        HttpCall.setUrltext("/api/admin/" + email);
         JSONObject user = new JSONObject(HttpCall.getResponse());
         useremail = user.getString("email");
         username = user.getString("name");

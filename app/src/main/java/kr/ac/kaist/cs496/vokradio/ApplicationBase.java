@@ -10,7 +10,6 @@ import com.tsengvn.typekit.Typekit;
 
 public class ApplicationBase extends Application {
 
-    //For Font
     @Override
     public void onCreate() {
         super.onCreate();

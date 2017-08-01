@@ -1,7 +1,6 @@
 package kr.ac.kaist.cs496.vokradio;
 
 import android.app.Activity;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -45,25 +44,77 @@ public class HttpCall extends Activity {
     private static String status = "";
     private static String body = "";
 
-    public static void setBody(String s) { body = s; }
-    public static void setMethodtext(String s) { method = s; }
-    public static void setUrltext(String s) { urltext = s; }
-    public static void setEmailtext(String s) { email = s; }
-    public static void setNametext(String s) { name = s; }
-    public static void setJobtext(String s) { job = s; }
-    public static void setYeartext(String s) { yearnumber = s; }
-    public static void setPasswordtext(String s) { password = s; }
-    public static void setIdtext(String s) { id = s; }
-    public static void setTitletext(String s) { title = s; }
-    public static void setCategorytext(String s) { category = s; }
-    public static void setDaytext(String s) { day = s; }
-    public static void setTimetext(String s) { time = s; }
-    public static void setStatustext(String s) { status = s; }
+    public static void setBody(String s) {
+        body = s;
+    }
 
-    public static void setProducer(ArrayList<String> a) { producer = a; }
-    public static void setEngineer(ArrayList<String> a) { engineer = a; }
-    public static void setAnouncer(ArrayList<String> a) { anouncer = a; }
-    public static void setSongs(ArrayList<String> a) { songs = a; }
+    public static void setMethodtext(String s) {
+        method = s;
+    }
+
+    public static void setUrltext(String s) {
+        urltext = s;
+    }
+
+    public static void setEmailtext(String s) {
+        email = s;
+    }
+
+    public static void setNametext(String s) {
+        name = s;
+    }
+
+    public static void setJobtext(String s) {
+        job = s;
+    }
+
+    public static void setYeartext(String s) {
+        yearnumber = s;
+    }
+
+    public static void setPasswordtext(String s) {
+        password = s;
+    }
+
+    public static void setIdtext(String s) {
+        id = s;
+    }
+
+    public static void setTitletext(String s) {
+        title = s;
+    }
+
+    public static void setCategorytext(String s) {
+        category = s;
+    }
+
+    public static void setDaytext(String s) {
+        day = s;
+    }
+
+    public static void setTimetext(String s) {
+        time = s;
+    }
+
+    public static void setStatustext(String s) {
+        status = s;
+    }
+
+    public static void setProducer(ArrayList<String> a) {
+        producer = a;
+    }
+
+    public static void setEngineer(ArrayList<String> a) {
+        engineer = a;
+    }
+
+    public static void setAnouncer(ArrayList<String> a) {
+        anouncer = a;
+    }
+
+    public static void setSongs(ArrayList<String> a) {
+        songs = a;
+    }
 
     public static void setThumbnail(File f) {
         thumbnail = f;
@@ -100,7 +151,7 @@ public class HttpCall extends Activity {
 
     public static class DeleteExample {
         OkHttpClient client = new OkHttpClient();
-        
+
         String delete(String url) throws IOException {
             Request request = new Request.Builder()
                     .url(url)
@@ -334,7 +385,7 @@ public class HttpCall extends Activity {
         @Override
         public void run() {
             try {
-                response = statusputexample.put("http://52.78.17.108:8080" + urltext,body);
+                response = statusputexample.put("http://52.78.17.108:8080" + urltext, body);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -351,11 +402,7 @@ public class HttpCall extends Activity {
         @Override
         public void run() {
             try {
-                /*
-                response = postexample.post("http://52.78.17.108:8080" + urltext, thumbnail, email, name, job, yearnumber, password, id,
-                        title, category, day, producer, engineer, anouncer);
-                        */
-                response = postexample.post("http://52.78.17.108:8080" + urltext,body);
+                response = postexample.post("http://52.78.17.108:8080" + urltext, body);
             } catch (IOException e) {
                 e.printStackTrace();
             }

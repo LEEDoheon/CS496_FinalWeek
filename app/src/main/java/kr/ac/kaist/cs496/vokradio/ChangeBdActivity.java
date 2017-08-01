@@ -3,14 +3,10 @@ package kr.ac.kaist.cs496.vokradio;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,9 +16,6 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 /**
  * Created by q on 2017-07-31.
@@ -70,7 +63,7 @@ public class ChangeBdActivity extends AppCompatActivity {
         music8 = (EditText) findViewById(R.id.music8);
 
         HttpCall.setMethodtext("GET");
-        HttpCall.setUrltext("/api/broadcast/"+bdTitle);
+        HttpCall.setUrltext("/api/broadcast/" + bdTitle);
         JSONObject bdInfo = new JSONObject();
         isChecked = false;
         try {
@@ -84,8 +77,14 @@ public class ChangeBdActivity extends AppCompatActivity {
         if (!isChecked) {
             switchText.setText("OFFLINE");
             switchText.setTextColor(Color.GRAY);
-            setUseableEditText(music1, isChecked); setUseableEditText(music2, isChecked); setUseableEditText(music3, isChecked); setUseableEditText(music4, isChecked);
-            setUseableEditText(music5, isChecked); setUseableEditText(music6, isChecked); setUseableEditText(music7, isChecked); setUseableEditText(music8, isChecked);
+            setUseableEditText(music1, isChecked);
+            setUseableEditText(music2, isChecked);
+            setUseableEditText(music3, isChecked);
+            setUseableEditText(music4, isChecked);
+            setUseableEditText(music5, isChecked);
+            setUseableEditText(music6, isChecked);
+            setUseableEditText(music7, isChecked);
+            setUseableEditText(music8, isChecked);
         } else {
             switchText.setText("ON Air");
             switchText.setTextColor(Color.RED);
@@ -102,8 +101,14 @@ public class ChangeBdActivity extends AppCompatActivity {
                     switchText.setText("OFFLINE");
                     switchText.setTextColor(Color.GRAY);
                 }
-                setUseableEditText(music1, isChecked); setUseableEditText(music2, isChecked); setUseableEditText(music3, isChecked); setUseableEditText(music4, isChecked);
-                setUseableEditText(music5, isChecked); setUseableEditText(music6, isChecked); setUseableEditText(music7, isChecked); setUseableEditText(music8, isChecked);
+                setUseableEditText(music1, isChecked);
+                setUseableEditText(music2, isChecked);
+                setUseableEditText(music3, isChecked);
+                setUseableEditText(music4, isChecked);
+                setUseableEditText(music5, isChecked);
+                setUseableEditText(music6, isChecked);
+                setUseableEditText(music7, isChecked);
+                setUseableEditText(music8, isChecked);
             }
         });
 
@@ -111,7 +116,7 @@ public class ChangeBdActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 HttpCall.setMethodtext("statusPUT");
-                HttpCall.setUrltext("/api/onair/"+bdTitle);
+                HttpCall.setUrltext("/api/onair/" + bdTitle);
 
                 JSONObject body = new JSONObject();
                 if (isChecked) try {
@@ -150,7 +155,6 @@ public class ChangeBdActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("heyhey", body.toString());
                 HttpCall.setBody(body.toString());
                 HttpCall.getResponse();
 
