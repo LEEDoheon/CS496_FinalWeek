@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     int volume = 0;
 
-    String stream = "http://37.72.100.39:8025/stream";
+    String stream = "mms://143.248.49.104:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

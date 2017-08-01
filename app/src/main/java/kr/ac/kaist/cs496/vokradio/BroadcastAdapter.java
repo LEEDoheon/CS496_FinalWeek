@@ -3,7 +3,6 @@ package kr.ac.kaist.cs496.vokradio;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import static kr.ac.kaist.cs496.vokradio.R.id.backgroundImage;
 
 /**
  * Created by q on 2017-07-31.
@@ -109,11 +110,30 @@ public class BroadcastAdapter extends BaseAdapter{
         final int pos = position;
         final Context context = parent.getContext();
 
+        BroadcastViewHolder viewHolder;
+
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.broadcast_list, parent, false);
+
+            //Caching by ViewHolder
+            viewHolder = new BroadcastViewHolder();
+            viewHolder.titleText = (TextView) convertView.findViewById(R.id.titleText);
+            viewHolder.category = (TextView) convertView.findViewById(R.id.categoryText);
+            viewHolder.day = (TextView) convertView.findViewById(R.id.dayText);
+            viewHolder.time = (TextView) convertView.findViewById(R.id.timeText);
+            viewHolder.ann = (TextView) convertView.findViewById(R.id.annText);
+            viewHolder.eng = (TextView) convertView.findViewById(R.id.engText);
+            viewHolder.pd = (TextView) convertView.findViewById(R.id.pdText);
+            viewHolder.background = (ImageView) convertView.findViewById(backgroundImage);
+            viewHolder.onAirImage = (ImageView) convertView.findViewById(R.id.liveImage);
+            convertView.setTag(viewHolder);
+        }
+        else{
+            viewHolder = (BroadcastViewHolder) convertView.getTag();
         }
 
+        /*
         TextView titleTextView = (TextView) convertView.findViewById(R.id.titleText);
         TextView categoryTextView = (TextView) convertView.findViewById(R.id.categoryText);
         TextView dayTextView = (TextView) convertView.findViewById(R.id.dayText);
@@ -123,6 +143,7 @@ public class BroadcastAdapter extends BaseAdapter{
         TextView PDTextView = (TextView) convertView.findViewById(R.id.pdText);
         final ImageView backgroundImage = (ImageView) convertView.findViewById(R.id.backgroundImage);
         ImageView onAirImage = (ImageView) convertView.findViewById(R.id.liveImage);
+        */
 
         final BroadcastItem broadcastItem = items.get(position);
 
@@ -143,9 +164,7 @@ public class BroadcastAdapter extends BaseAdapter{
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 2;
-                    bitmap = BitmapFactory.decodeStream(in, null, options);
+                    bitmap = BitmapFactory.decodeStream(in);
                 }
             };
             thread.start();
@@ -154,36 +173,36 @@ public class BroadcastAdapter extends BaseAdapter{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            backgroundImage.setImageBitmap(bitmap);
+            viewHolder.background.setImageBitmap(bitmap);
         }
-        titleTextView.setText(broadcastItem.getId());
-        categoryTextView.setText(broadcastItem.getCategory());
-        dayTextView.setText(broadcastItem.getDay());
-        timeTextView.setText(broadcastItem.getTime());
+        viewHolder.titleText.setText(broadcastItem.getId());
+        viewHolder.category.setText(broadcastItem.getCategory());
+        viewHolder.day.setText(broadcastItem.getDay());
+        viewHolder.time.setText(broadcastItem.getTime());
         //ANN
         String temp = "ANN:";
         List<String> temps = broadcastItem.getAnouncer();
         for(int i = 0; i < temps.size();i++){
             temp += " "+ temps.get(i);
         }
-        ANNTextView.setText(temp);
+        viewHolder.ann.setText(temp);
         //ENG
         temp = "ENG:";
         temps = broadcastItem.getEngineer();
         for(int i = 0; i < temps.size();i++){
             temp += " "+ temps.get(i);
         }
-        ENGTextView.setText(temp);
+        viewHolder.eng.setText(temp);
         //PD
         temp = "PD:";
         temps = broadcastItem.getProducer();
         for(int i = 0; i < temps.size();i++){
             temp += " "+ temps.get(i);
         }
-        PDTextView.setText(temp);
+        viewHolder.pd.setText(temp);
 
         if(broadcastItem.getOnAir()){
-            onAirImage.setImageResource(R.drawable.liveicon);
+            viewHolder.onAirImage.setImageResource(R.drawable.liveicon);
         }
 
         return convertView;
