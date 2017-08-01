@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static kr.ac.kaist.cs496.vokradio.R.id.backgroundImage;
@@ -90,6 +91,7 @@ public class BroadcastAdapter extends BaseAdapter{
                 items.add(tempItem);
 
             }
+            Collections.sort(items, BroadcastItem.ONAIRFIRST_COMPARATOR);
         }catch (JSONException e){
             e.printStackTrace();
         }
