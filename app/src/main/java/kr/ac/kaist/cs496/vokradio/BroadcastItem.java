@@ -1,5 +1,6 @@
 package kr.ac.kaist.cs496.vokradio;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -69,6 +70,17 @@ public class BroadcastItem {
     public void setEngineer(List<String> value){this.engineer = value;}
     public void setSongs(List<String> value){this.songs = value;}
 
+
+    //Comparator
+    public static final Comparator<BroadcastItem> ONAIRFIRST_COMPARATOR = new Comparator<BroadcastItem>() {
+        @Override
+        public int compare(BroadcastItem b1, BroadcastItem b2) {
+            if(b1.getOnAir() == true && b2.getOnAir() == false){
+                return -1;
+            }
+            return 1;
+        }
+    };
 
 
 }
