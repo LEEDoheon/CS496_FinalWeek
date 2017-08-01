@@ -3,6 +3,7 @@ package kr.ac.kaist.cs496.vokradio;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +24,15 @@ import android.widget.TextView;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import wseemann.media.FFmpegMediaPlayer;
@@ -34,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView circularImage;
     ImageView control;
     ImageView syncImage;
+    Bitmap bitmap;
 
     FFmpegMediaPlayer mediaPlayer;
     AudioManager audioManager;
@@ -49,23 +60,65 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_bar);
         TextView appname = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.customBar);
         appname.setTypeface(Typeface.createFromAsset(getAssets(), "Lobster_1.3.otf"));
 
-        //BackgroundImage Blurring
-        backgroundImage = (ImageView) findViewById(R.id.backgroundImageView);
-        BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.landscape);
-        Bitmap blurredBitmap = BlurBuilder.blur(this, drawable.getBitmap());
-        backgroundImage.setImageBitmap(blurredBitmap);
-
         //CircularImage Cropping
         circularImage = (ImageView) findViewById(R.id.circularImageView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             circularImage.setBackground(new ShapeDrawable(new OvalShape()));
             circularImage.setClipToOutline(true);
+        }
+
+        //BackgroundImage Blurring
+        backgroundImage = (ImageView) findViewById(R.id.backgroundImageView);
+        HttpCall.setMethodtext("GET");
+        HttpCall.setUrltext("/api/broadcast/"+intent.getStringExtra("title"));
+        Log.d("thistitleis", intent.getStringExtra("title"));
+        JSONObject BroadCastInfo = new JSONObject();
+        String img_path = new String();
+        try {
+            BroadCastInfo = new JSONObject(HttpCall.getResponse());
+            img_path = BroadCastInfo.getString("thumbnail");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (img_path != null && img_path.length() > 0) {
+            final String img_path_real = "http://52.78.17.108:8080/"+img_path;
+            Thread thread = new Thread() {
+                public void run() {
+                    InputStream in = null;
+                    try {
+                        URL url = new URL(img_path_real);
+                        URLConnection urlConn = url.openConnection();
+                        HttpURLConnection httpConn = (HttpURLConnection) urlConn;
+                        httpConn.connect();
+                        in = httpConn.getInputStream();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    bitmap = BitmapFactory.decodeStream(in);
+                }
+            };
+            thread.start();
+            try{
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            circularImage.setImageBitmap(bitmap);
+            Bitmap blurredBitmap = BlurBuilder.blur(this, bitmap);
+            backgroundImage.setImageBitmap(blurredBitmap);
+        } else {
+            BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.landscape);
+            Bitmap blurredBitmap = BlurBuilder.blur(this, drawable.getBitmap());
+            backgroundImage.setImageBitmap(blurredBitmap);
         }
 
         // PlayButton Control
@@ -136,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.broadcastTitle);
         TextView songText = (TextView) findViewById(R.id.songText);
 
-        Intent intent = getIntent();
         title.setText(intent.getStringExtra("title"));
         ArrayList<String> songs = intent.getStringArrayListExtra("songs");
         String songBuilder = "";
