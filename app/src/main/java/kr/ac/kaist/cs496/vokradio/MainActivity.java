@@ -115,10 +115,6 @@ public class MainActivity extends AppCompatActivity {
             circularImage.setImageBitmap(bitmap);
             Bitmap blurredBitmap = BlurBuilder.blur(this, bitmap);
             backgroundImage.setImageBitmap(blurredBitmap);
-        } else {
-            BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.landscape);
-            Bitmap blurredBitmap = BlurBuilder.blur(this, drawable.getBitmap());
-            backgroundImage.setImageBitmap(blurredBitmap);
         }
 
         // PlayButton Control
