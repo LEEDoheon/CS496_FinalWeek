@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -56,7 +57,7 @@ public class CreateBdActivity extends AppCompatActivity {
     EditText bdAnouncer4;
 
     Button select_thumbnail;
-    Button submit_creation;
+    ImageButton submit_creation;
     boolean img_selected = false;
 
     File img_thumbnail;
@@ -101,7 +102,7 @@ public class CreateBdActivity extends AppCompatActivity {
             }
         });
 
-        submit_creation = (Button) findViewById(R.id.submit_broadcast_create);
+        submit_creation = (ImageButton) findViewById(R.id.submit_broadcast_create);
         submit_creation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,6 +184,7 @@ public class CreateBdActivity extends AppCompatActivity {
                     img_thumbnail = new File(imagepath);
                     img_selected = true;
                     select_thumbnail.setText("SELECTED");
+                    select_thumbnail.setCompoundDrawablesWithIntrinsicBounds(R.drawable.img_selected, 0, 0, 0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

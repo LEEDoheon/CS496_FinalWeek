@@ -1,5 +1,6 @@
 package kr.ac.kaist.cs496.vokradio;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -12,12 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -36,7 +39,7 @@ public class ChangeBdActivity extends AppCompatActivity {
     EditText music6;
     EditText music7;
     EditText music8;
-    Button onairBtn;
+    ImageButton onairBtn;
 
     String bdTitle;
     boolean isChecked;
@@ -52,8 +55,10 @@ public class ChangeBdActivity extends AppCompatActivity {
         appname.setTypeface(Typeface.createFromAsset(getAssets(), "Lobster_1.3.otf"));
         bdTitle = getIntent().getStringExtra("title");
 
+        final TextView switchText = (TextView) findViewById(R.id.switch_text);
+
         onairSwitch = (Switch) findViewById(R.id.onair_switch);
-        onairBtn = (Button) findViewById(R.id.onair_submit);
+        onairBtn = (ImageButton) findViewById(R.id.onair_submit);
 
         music1 = (EditText) findViewById(R.id.music1);
         music2 = (EditText) findViewById(R.id.music2);
@@ -77,14 +82,26 @@ public class ChangeBdActivity extends AppCompatActivity {
         onairSwitch.setChecked(isChecked);
 
         if (!isChecked) {
+            switchText.setText("OFFLINE");
+            switchText.setTextColor(Color.GRAY);
             setUseableEditText(music1, isChecked); setUseableEditText(music2, isChecked); setUseableEditText(music3, isChecked); setUseableEditText(music4, isChecked);
             setUseableEditText(music5, isChecked); setUseableEditText(music6, isChecked); setUseableEditText(music7, isChecked); setUseableEditText(music8, isChecked);
+        } else {
+            switchText.setText("ON Air");
+            switchText.setTextColor(Color.RED);
         }
 
         onairSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 isChecked = b;
+                if (b) {
+                    switchText.setText("ON Air");
+                    switchText.setTextColor(Color.RED);
+                } else {
+                    switchText.setText("OFFLINE");
+                    switchText.setTextColor(Color.GRAY);
+                }
                 setUseableEditText(music1, isChecked); setUseableEditText(music2, isChecked); setUseableEditText(music3, isChecked); setUseableEditText(music4, isChecked);
                 setUseableEditText(music5, isChecked); setUseableEditText(music6, isChecked); setUseableEditText(music7, isChecked); setUseableEditText(music8, isChecked);
             }

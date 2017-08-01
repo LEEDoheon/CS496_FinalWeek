@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="6"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <TextView
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <TextView
@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <TextView
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="21"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <TextView
@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="21"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <TextView
@@ -140,7 +140,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="21"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <LinearLayout
@@ -221,24 +221,30 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/select_thumbnail"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="38dp"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="25dp">
-        <Button
-            android:id="@+id/select_thumbnail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thumbnail"
-            android:layout_marginRight="15dp"/>
-        <Button
-            android:id="@+id/submit_broadcast_create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SUBMIT"/>
-    </LinearLayout>
+        android:layout_marginTop="20dp"
+        android:text="Thumbnail"
+        android:textSize="16dp"
+        android:paddingLeft="18dip"
+        android:paddingRight="20dip"
+        android:drawablePadding="18dip"
+        android:drawableLeft="@drawable/add_img"
+        android:gravity="left|center_vertical"
+        android:background="#F2F2F2"
+        android:textColor="#454545"/>
+
+    <ImageButton
+        android:id="@+id/submit_broadcast_create"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="27dp"
+        android:src="@drawable/success_big"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"/>
 
 </LinearLayout>

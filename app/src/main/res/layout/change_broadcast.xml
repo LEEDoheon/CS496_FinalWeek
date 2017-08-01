@@ -6,11 +6,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:padding="20dp">
         <TextView
+            android:id="@+id/switch_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="방송 상태"
+            android:text="OFFLINE"
             android:layout_marginRight="30dp"/>
         <Switch
             android:id="@+id/onair_switch"
@@ -39,7 +41,7 @@
             <EditText
                 android:id="@+id/music1"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -54,7 +56,7 @@
             <EditText
                 android:id="@+id/music2"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -69,7 +71,7 @@
             <EditText
                 android:id="@+id/music3"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -84,7 +86,7 @@
             <EditText
                 android:id="@+id/music4"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -99,7 +101,7 @@
             <EditText
                 android:id="@+id/music5"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -114,7 +116,7 @@
             <EditText
                 android:id="@+id/music6"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -129,7 +131,7 @@
             <EditText
                 android:id="@+id/music7"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -144,15 +146,17 @@
             <EditText
                 android:id="@+id/music8"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/onair_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUBMIT"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="27dp"
+        android:src="@drawable/success_big"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"/>
 </LinearLayout>
